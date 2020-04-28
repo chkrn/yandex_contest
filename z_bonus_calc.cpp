@@ -32,12 +32,15 @@ static std::list<int> readToList() {
 			integerInput += (s - '0');
 			reading = Reading::integer;
 		} else if(s == '+' || s == '-' || s == '*' || s == '/') {
-			if(reading != Reading::integer)
-				throw std::runtime_error("Operator not after integer value");
+			if(reading != Reading::integer && reading != Reading::rightBracket)
+				throw std::runtime_error("Operator not after integer value or right bracket");
 
-			rval.push_back(integerInput);
+			if(reading == Reading::integer) {
+				rval.push_back(integerInput);
+				integerInput = 0;
+			}
+
 			rval.push_back(-s);
-			integerInput = 0;
 			reading = Reading::oper;
 		} else if(s == '(') {
 			leftBrackets++;
@@ -71,6 +74,11 @@ static std::list<int> readToList() {
 
 	if(rightBrackets != leftBrackets)
 		throw std::runtime_error("Left and right brackets nums mismatch (after all input analyze)");
+
+	if(reading == Reading::integer) {
+		rval.push_back(integerInput);
+		integerInput = 0;
+	}
 
 	return rval;
 }
