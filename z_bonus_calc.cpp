@@ -16,6 +16,14 @@ enum class Reading {
 	rightBracket
 };
 
+enum class Oper {
+	no,
+	minus,
+	plus,
+	mul,
+	div
+};
+
 static void printList(std::list<int> list) {
 	for(int i: list)
 		if(i >= 0)
@@ -93,12 +101,47 @@ static std::list<int> readToList() {
 	return rval;
 }
 
+int count(const std::list<int>& list, std::list<int>::const_iterator& i) {
+	int rval = 0;
+	Oper oper = Oper::no;
+
+	while(i != list.end()) {
+		if(*i >= 0) {
+			if(oper == Oper::no || oper == Oper::plus)
+				rval += *i;
+			else
+				rval -= *i;
+			++i;
+		} else if(*i == -'-') {
+			oper = Oper::minus;
+			++i;
+		} else if(*i == -'+') {
+			oper = Oper::plus;
+			++i;
+		} else if(*i == -'(') {
+			if(oper == Oper::no || oper == Oper::plus)
+				rval += count(list, ++i);
+			else
+				rval -= count(list, ++i);
+		} else if(*i == -')') {
+			++i;
+			break;
+		}
+	}
+
+	return rval;
+}
+
 int main() {
 try {
 	auto list = readToList();
 
 	std::cout << "Input:" << std::endl;
 	printList(list);
+
+	std::cout << "Answer:" << std::endl;
+	std::list<int>::const_iterator begin = list.begin();
+	std::cout << count(list, begin) << std::endl;
 
 	return 0;
 } catch(const std::runtime_error& e) {
