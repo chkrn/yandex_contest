@@ -16,6 +16,16 @@ enum class Reading {
 	rightBracket
 };
 
+static void printList(std::list<int> list) {
+	for(int i: list)
+		if(i >= 0)
+			std::cout << i << " ";
+		else
+			std::cout << static_cast<char>(-i) << " ";
+
+	std::cout << std::endl;
+}
+
 static std::list<int> readToList() {
 	std::list<int> rval;
 
@@ -86,6 +96,9 @@ static std::list<int> readToList() {
 int main() {
 try {
 	auto list = readToList();
+
+	std::cout << "Input:" << std::endl;
+	printList(list);
 
 	return 0;
 } catch(const std::runtime_error& e) {
