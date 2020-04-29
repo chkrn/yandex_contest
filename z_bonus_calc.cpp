@@ -117,37 +117,6 @@ static std::pair<
 		(std::move(list), std::move(prio));
 }
 
-int count(const std::list<int>& list, std::list<int>::const_iterator& i) {
-	int rval = 0;
-	Oper oper = Oper::no;
-
-	while(i != list.end()) {
-		if(*i >= 0) {
-			if(oper == Oper::no || oper == Oper::plus)
-				rval += *i;
-			else
-				rval -= *i;
-			++i;
-		} else if(*i == -'-') {
-			oper = Oper::minus;
-			++i;
-		} else if(*i == -'+') {
-			oper = Oper::plus;
-			++i;
-		} else if(*i == -'(') {
-			if(oper == Oper::no || oper == Oper::plus)
-				rval += count(list, ++i);
-			else
-				rval -= count(list, ++i);
-		} else if(*i == -')') {
-			++i;
-			break;
-		}
-	}
-
-	return rval;
-}
-
 int main() {
 try {
 	auto listAndPrio = readToList();
