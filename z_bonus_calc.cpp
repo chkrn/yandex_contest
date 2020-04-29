@@ -39,7 +39,6 @@
 
 
 #include <iostream>
-#include <sstream>
 #include <list>
 #include <map>
 #include <vector>
@@ -160,7 +159,6 @@ try {
 	for(auto v : listAndPrio.second) {
 		std::cout << "> pri = " << v.first << std::endl;
 		for(auto i : v.second) {
-
 			switch(*i) {
 				case -'+':
 					std::cout << *std::prev(i) << " + " << *std::next(i) << std::endl;
