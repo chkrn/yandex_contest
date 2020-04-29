@@ -5,6 +5,7 @@
 // Сборка: make
 
 // Примеры:
+//
 // $ echo '3 + 55 / (7 + 4)' | ./calc
 // Input:
 // 3 + 55 / 7 + 4
@@ -16,6 +17,25 @@
 // 3 + 5
 // Answer:
 // 8
+//
+// echo '( (2 + 5) * 3 ) * ( 3 - 1 ) + 55 / (7 + 4)' | ./calc
+// Input:
+// 2 + 5 * 3 * 3 - 1 + 55 / 7 + 4
+// > pri = 4
+// 2 + 5
+// > pri = 3
+// 7 * 3
+// > pri = 2
+// 3 - 1
+// 7 + 4
+// > pri = 1
+// 21 * 2
+// 55 / 11
+// > pri = 0
+// 42 + 5
+// Answer:
+// 47
+//
 
 
 #include <iostream>
@@ -88,7 +108,7 @@ static std::pair<
 			reading = Reading::oper;
 
 			// Вот здесь несложно расширить приоритет и добавить поддержку новых операторов
-			unsigned curPrio = leftBrackets * 2;
+			unsigned curPrio = (leftBrackets - rightBrackets) * 2;
 			if(s == '*' || s == '/')
 				curPrio += 1;
 			prio[curPrio].push_back(std::prev(list.end()));
