@@ -53,14 +53,6 @@ enum class Reading {
 	rightBracket
 };
 
-enum class Oper {
-	no,
-	minus,
-	plus,
-	mul,
-	div
-};
-
 static void printList(std::list<int> list) {
 	for(int i: list)
 		if(i >= 0)
@@ -80,7 +72,11 @@ static std::pair<
 							>
 				> readToList() {
 
+	// Список чисел и операторов (без скобок)
 	std::list<int> list;
+
+	// Здесь итераторы на все операторы разложены по векторам.
+	// Каждый вектор соответствует приоритету оператора.
 	std::map<unsigned, std::vector<std::list<int>::iterator>, std::greater<unsigned>> prio;
 
 	char s;
@@ -107,7 +103,9 @@ static std::pair<
 			list.push_back(-s);
 			reading = Reading::oper;
 
-			// Вот здесь несложно расширить приоритет и добавить поддержку новых операторов
+			// Вот здесь в теории можно расширить приоритет и добавить поддержку новых операторов.
+			// Сейчас нахождение оператора в скобках повышает его приоритет на 2.
+			// У операторов умножения/деления приоритет на 1 выше операторов сложения/умножения.
 			unsigned curPrio = (leftBrackets - rightBrackets) * 2;
 			if(s == '*' || s == '/')
 				curPrio += 1;
@@ -149,8 +147,7 @@ static std::pair<
 		integerInput = 0;
 	}
 
-	return std::pair<std::list<int>, std::map<unsigned, std::vector<std::list<int>::iterator>, std::greater<unsigned>>>
-		(std::move(list), std::move(prio));
+	return std::pair<decltype(list), decltype(prio)>(std::move(list), std::move(prio));
 }
 
 int main() {
