@@ -2,7 +2,21 @@
 // По условию задачи у вас есть формула с цифрами, операциями +-*/ и скобками.
 // Нужно написать программу, которая ее вычисляет.
 
-// Build: make
+// Сборка: make
+
+// Примеры:
+// $ echo '3 + 55 / (7 + 4)' | ./calc
+// Input:
+// 3 + 55 / 7 + 4
+// > pri = 2
+// 7 + 4
+// > pri = 1
+// 55 / 11
+// > pri = 0
+// 3 + 5
+// Answer:
+// 8
+
 
 #include <iostream>
 #include <sstream>
@@ -155,7 +169,7 @@ try {
 		}
 	}
 
-	std::cout << "Answer:" << listAndPrio.first.front() << std::endl;
+	std::cout << "Answer:" << std::endl << listAndPrio.first.front() << std::endl;
 
 	return 0;
 } catch(const std::runtime_error& e) {
