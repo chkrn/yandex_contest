@@ -41,12 +41,13 @@ static std::pair<
 					std::list<int>,
 					std::map<
 								unsigned,
-								std::vector<std::list<int>::iterator>
+								std::vector<std::list<int>::iterator>,
+								std::greater<unsigned>
 							>
 				> readToList() {
 
 	std::list<int> list;
-	std::map<unsigned, std::vector<std::list<int>::iterator>> prio;
+	std::map<unsigned, std::vector<std::list<int>::iterator>, std::greater<unsigned>> prio;
 
 	char s;
 	int integerInput = 0;
@@ -113,7 +114,7 @@ static std::pair<
 		integerInput = 0;
 	}
 
-	return std::pair<std::list<int>, std::map<unsigned, std::vector<std::list<int>::iterator>>>
+	return std::pair<std::list<int>, std::map<unsigned, std::vector<std::list<int>::iterator>, std::greater<unsigned>>>
 		(std::move(list), std::move(prio));
 }
 
