@@ -73,6 +73,7 @@ static std::pair<
 			list.push_back(-s);
 			reading = Reading::oper;
 
+			// Вот здесь несложно расширить приоритет и добавить поддержку новых операторов
 			unsigned curPrio = leftBrackets * 2;
 			if(s == '*' || s == '/')
 				curPrio += 1;
@@ -128,9 +129,33 @@ try {
 	for(auto v : listAndPrio.second) {
 		std::cout << "> pri = " << v.first << std::endl;
 		for(auto i : v.second) {
-			std::cout << ">> " << static_cast<char>(-*i) << std::endl;
+
+			switch(*i) {
+				case -'+':
+					std::cout << *std::prev(i) << " + " << *std::next(i) << std::endl;
+					*std::prev(i) += *std::next(i);
+				break;
+				case -'-':
+					std::cout << *std::prev(i) << " - " << *std::next(i) << std::endl;
+					*std::prev(i) -= *std::next(i);
+				break;
+				case -'*':
+					std::cout << *std::prev(i) << " * " << *std::next(i) << std::endl;
+					*std::prev(i) *= *std::next(i);
+				break;
+				case -'/':
+					std::cout << *std::prev(i) << " / " << *std::next(i) << std::endl;
+					*std::prev(i) /= *std::next(i);
+				break;
+				default:
+				throw std::runtime_error("Unexpected operator");
+			}
+			listAndPrio.first.erase(std::next(i));
+			listAndPrio.first.erase(i);
 		}
 	}
+
+	std::cout << "Answer:" << listAndPrio.first.front() << std::endl;
 
 	return 0;
 } catch(const std::runtime_error& e) {
