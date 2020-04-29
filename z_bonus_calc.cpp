@@ -124,9 +124,12 @@ try {
 	std::cout << "Input:" << std::endl;
 	printList(listAndPrio.first);
 
-	//std::cout << "Answer:" << std::endl;
-	//std::list<int>::const_iterator begin = list.begin();
-	//std::cout << count(list, begin) << std::endl;
+	for(auto v : listAndPrio.second) {
+		std::cout << "> pri = " << v.first << std::endl;
+		for(auto i : v.second) {
+			std::cout << ">> " << static_cast<char>(-*i) << std::endl;
+		}
+	}
 
 	return 0;
 } catch(const std::runtime_error& e) {
